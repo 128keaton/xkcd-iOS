@@ -15,17 +15,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         let backOneComic = UITapGestureRecognizer.init(target: self, action: "swipeDown")
     
-        backOneComic.numberOfTapsRequired = 2
+        backOneComic.numberOfTapsRequired = 3
         imageView?.addGestureRecognizer(backOneComic);
 
         let upOneComic = UITapGestureRecognizer.init(target: self, action: "swipeUp")
       
-        upOneComic.numberOfTapsRequired = 3
+        upOneComic.numberOfTapsRequired = 4
         imageView?.addGestureRecognizer(upOneComic);
 
         
         let saveComic = UITapGestureRecognizer.init(target: self, action: "twoFingerTap")
-        saveComic.numberOfTapsRequired = 5
+        saveComic.numberOfTapsRequired = 2
+        imageView?.addGestureRecognizer(saveComic)
   
         
         
@@ -117,9 +118,12 @@ class ViewController: UIViewController {
         print(comicImg);
         let url = NSURL.init(string: comicImg);
         let imageData = NSData(contentsOfURL:url!)
-        if imageData != nil {
-            imageView?.displayImage(UIImage(data:imageData!)!)
-        }
+        let comic = UIImage.init(data: imageData!)
+        
+
+        let activityViewController = UIActivityViewController(activityItems: [comic! as UIImage], applicationActivities: nil)
+        presentViewController(activityViewController, animated: true, completion: {})
+        
 
         
     }
