@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="XKCD" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +15,47 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="x5G-gp-5Db" customClass="ImageScrollView" customModule="ImageScrollView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
+                            </scrollView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ObQ-Ys-ta4">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="DwU-Vm-Ulb"/>
+                                    <barButtonItem title="Next" id="GqF-S1-AbW">
+                                        <connections>
+                                            <action selector="swipeUp" destination="BYZ-38-t0r" id="E3c-gg-oPR"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="qN1-Pj-cR3"/>
+                                    <barButtonItem title="Back" id="i28-rP-mRV">
+                                        <connections>
+                                            <action selector="swipeDown" destination="BYZ-38-t0r" id="icj-bd-5A5"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="x5G-gp-5Db" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" constant="-44" id="VKh-6W-YDN"/>
+                            <constraint firstItem="ObQ-Ys-ta4" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Z0s-Ha-gG5"/>
+                            <constraint firstAttribute="trailing" secondItem="x5G-gp-5Db" secondAttribute="trailing" id="cBv-hm-Gm9"/>
+                            <constraint firstItem="ObQ-Ys-ta4" firstAttribute="leading" secondItem="x5G-gp-5Db" secondAttribute="leading" id="fUA-iX-Qad"/>
+                            <constraint firstItem="x5G-gp-5Db" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="gp7-O2-PY3"/>
+                            <constraint firstItem="ObQ-Ys-ta4" firstAttribute="top" secondItem="x5G-gp-5Db" secondAttribute="bottom" id="hIy-qE-7ek"/>
+                            <constraint firstItem="x5G-gp-5Db" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="rml-fU-PDT"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="x5G-gp-5Db" id="NRF-XE-V2X"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="305" y="429"/>
         </scene>
     </scenes>
 </document>
