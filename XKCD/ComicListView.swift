@@ -52,6 +52,9 @@ class ComicListView: UITableViewController {
 		}
 	}
 
+    @IBAction func returnHome(){
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		let comicViewer = segue.destinationViewController as! IndividualComicViewer
 		let row = sender as! Int
@@ -63,6 +66,7 @@ class ComicListView: UITableViewController {
 			let comic = UIImage.init(data: imageData!)
 			comicViewer.comic = comic
 			comicViewer.setComicViewImage(comic!)
+            comicViewer.title = temporaryDictionary["name"] as? String
 		}
 	}
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

@@ -10,7 +10,7 @@ import UIKit
 import ImageScrollView
 class ViewController: UIViewController {
     @IBOutlet var imageView: ImageScrollView?
-    
+    var currentComic: UIImage?
     let comicalClass = Comical()
     
     override func viewDidLoad() {
@@ -74,6 +74,7 @@ class ViewController: UIViewController {
         let imageData = NSData(contentsOfURL:url!)
         if imageData != nil {
             imageView?.displayImage(UIImage(data:imageData!)!)
+            self.currentComic = UIImage(data:imageData!)
         }
 
         
@@ -98,6 +99,7 @@ class ViewController: UIViewController {
         let imageData = NSData(contentsOfURL:url!)
         if imageData != nil {
             imageView?.displayImage(UIImage(data:imageData!)!)
+            self.currentComic = UIImage(data:imageData!)
         }
             
         }else{
@@ -112,20 +114,8 @@ class ViewController: UIViewController {
         
     }
      @IBAction func twoFingerTap(){
-        let defaults = NSUserDefaults.standardUserDefaults();
-        let comicCount = defaults.integerForKey("currentNumber")
-        let endpoint = NSURL(string: "http://xkcd.com/\(comicCount)/info.0.json")
-        print(endpoint)
-        let data = NSData(contentsOfURL: endpoint!)
-        let jsonDict = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? [String : AnyObject],
-        // Notice the extra question mark here!
-        comicImg = jsonDict?!["img"] as! String;
-        print(comicImg);
-        let url = NSURL.init(string: comicImg);
-        let imageData = NSData(contentsOfURL:url!)
-        let comic = UIImage.init(data: imageData!)
-        
 
+        let comic = currentComic
         let activityViewController = UIActivityViewController(activityItems: [comic! as UIImage], applicationActivities: nil)
         presentViewController(activityViewController, animated: true, completion: {})
         
@@ -136,6 +126,7 @@ class ViewController: UIViewController {
         let data = NSData(contentsOfURL: self.getLatestComic());
         if data != nil {
             imageView?.displayImage(UIImage(data:data!)!)
+            self.currentComic = UIImage(data:data!)
         }
         imageView?.contentMode = UIViewContentMode.Center
     }

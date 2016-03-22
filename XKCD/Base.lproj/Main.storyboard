@@ -17,23 +17,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="x5G-gp-5Db" customClass="ImageScrollView" customModule="ImageScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="512"/>
                                 <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                             </scrollView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="URm-A0-naC">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Latest Comic" id="skA-zl-ENI">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="bookmarks" id="U6A-Tg-QWu">
+                                            <connections>
+                                                <segue destination="Lpk-wd-GUv" kind="presentation" identifier="showList" id="18x-NG-xA0"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="egV-ND-KrE">
+                                            <connections>
+                                                <action selector="twoFingerTap" destination="BYZ-38-t0r" id="b1q-Av-y96"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ObQ-Ys-ta4">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
-                                    <barButtonItem systemItem="bookmarks" id="U6A-Tg-QWu">
-                                        <connections>
-                                            <segue destination="Lpk-wd-GUv" kind="presentation" identifier="showList" id="18x-NG-xA0"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="7VI-UA-fFv"/>
-                                    <barButtonItem systemItem="action" id="egV-ND-KrE">
-                                        <connections>
-                                            <action selector="twoFingerTap" destination="BYZ-38-t0r" id="b1q-Av-y96"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="DwU-Vm-Ulb"/>
                                     <barButtonItem title="Next" id="GqF-S1-AbW">
                                         <connections>
@@ -51,13 +58,16 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="x5G-gp-5Db" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" constant="-44" id="VKh-6W-YDN"/>
+                            <constraint firstItem="URm-A0-naC" firstAttribute="leading" secondItem="x5G-gp-5Db" secondAttribute="leading" id="166-xc-I73"/>
+                            <constraint firstItem="x5G-gp-5Db" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="2kT-md-EaV"/>
+                            <constraint firstItem="x5G-gp-5Db" firstAttribute="leading" secondItem="ObQ-Ys-ta4" secondAttribute="leading" id="5wh-SX-JtS"/>
+                            <constraint firstItem="x5G-gp-5Db" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="44" id="8Af-Hr-J4y"/>
+                            <constraint firstItem="URm-A0-naC" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="ArL-pu-cz5"/>
+                            <constraint firstItem="URm-A0-naC" firstAttribute="trailing" secondItem="x5G-gp-5Db" secondAttribute="trailing" id="Hov-wu-kJt"/>
+                            <constraint firstAttribute="bottom" secondItem="x5G-gp-5Db" secondAttribute="bottom" constant="44" id="Ucl-Ty-KMy"/>
+                            <constraint firstItem="x5G-gp-5Db" firstAttribute="trailing" secondItem="ObQ-Ys-ta4" secondAttribute="trailing" id="YIB-yF-YmZ"/>
                             <constraint firstItem="ObQ-Ys-ta4" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Z0s-Ha-gG5"/>
-                            <constraint firstAttribute="trailing" secondItem="x5G-gp-5Db" secondAttribute="trailing" id="cBv-hm-Gm9"/>
-                            <constraint firstItem="ObQ-Ys-ta4" firstAttribute="leading" secondItem="x5G-gp-5Db" secondAttribute="leading" id="fUA-iX-Qad"/>
-                            <constraint firstItem="x5G-gp-5Db" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="gp7-O2-PY3"/>
-                            <constraint firstItem="ObQ-Ys-ta4" firstAttribute="top" secondItem="x5G-gp-5Db" secondAttribute="bottom" id="hIy-qE-7ek"/>
-                            <constraint firstItem="x5G-gp-5Db" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="rml-fU-PDT"/>
+                            <constraint firstItem="x5G-gp-5Db" firstAttribute="bottom" secondItem="ObQ-Ys-ta4" secondAttribute="top" id="l4M-hF-WBE"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -70,7 +80,7 @@
             </objects>
             <point key="canvasLocation" x="305" y="429"/>
         </scene>
-        <!--Individual Comic Viewer-->
+        <!--Comic-->
         <scene sceneID="sKG-iq-NBI">
             <objects>
                 <viewController id="fQG-ti-IfS" customClass="IndividualComicViewer" customModule="XKCD" customModuleProvider="target" sceneMemberID="viewController">
@@ -82,18 +92,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wPj-iL-CXe" customClass="ImageScrollView" customModule="ImageScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="wPj-iL-CXe" customClass="ImageScrollView" customModule="ImageScrollView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
                             </scrollView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RGc-VK-Vhd">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="action" id="Izg-nR-MlK">
+                                        <connections>
+                                            <action selector="saveShareComic" destination="fQG-ti-IfS" id="N5p-9P-JQS"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wPj-iL-CXe" firstAttribute="height" secondItem="39l-8n-gLe" secondAttribute="height" id="A6l-Yz-bEp"/>
-                            <constraint firstItem="wPj-iL-CXe" firstAttribute="centerX" secondItem="39l-8n-gLe" secondAttribute="centerX" id="BxI-fq-6hS"/>
-                            <constraint firstItem="wPj-iL-CXe" firstAttribute="centerY" secondItem="39l-8n-gLe" secondAttribute="centerY" id="LPC-Cw-waI"/>
-                            <constraint firstItem="wPj-iL-CXe" firstAttribute="width" secondItem="39l-8n-gLe" secondAttribute="width" id="wDa-5O-it4"/>
+                            <constraint firstItem="RGc-VK-Vhd" firstAttribute="top" secondItem="wPj-iL-CXe" secondAttribute="bottom" id="2gy-Cb-OmR"/>
+                            <constraint firstItem="wPj-iL-CXe" firstAttribute="top" secondItem="39l-8n-gLe" secondAttribute="top" id="8wl-x0-ZI3"/>
+                            <constraint firstItem="wPj-iL-CXe" firstAttribute="leading" secondItem="39l-8n-gLe" secondAttribute="leading" id="BRL-7Z-c1n"/>
+                            <constraint firstItem="RGc-VK-Vhd" firstAttribute="centerX" secondItem="39l-8n-gLe" secondAttribute="centerX" id="Hmp-Sr-9sJ"/>
+                            <constraint firstItem="wPj-iL-CXe" firstAttribute="bottom" secondItem="liL-fg-UAn" secondAttribute="top" constant="-44" id="bud-s3-0MO"/>
+                            <constraint firstAttribute="trailing" secondItem="wPj-iL-CXe" secondAttribute="trailing" id="cTD-I9-Oox"/>
+                            <constraint firstItem="RGc-VK-Vhd" firstAttribute="leading" secondItem="wPj-iL-CXe" secondAttribute="leading" id="tud-um-TWH"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Comic" id="fGO-WQ-oLY"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="comicView" destination="wPj-iL-CXe" id="HNO-lu-2nr"/>
@@ -103,7 +128,7 @@
             </objects>
             <point key="canvasLocation" x="1117" y="429"/>
         </scene>
-        <!--Comic List View-->
+        <!--List-->
         <scene sceneID="Ys3-dm-al0">
             <objects>
                 <tableViewController id="UWE-g3-zJo" customClass="ComicListView" customModule="XKCD" customModuleProvider="target" sceneMemberID="viewController">
@@ -138,7 +163,13 @@
                             <outlet property="delegate" destination="UWE-g3-zJo" id="Hme-DJ-say"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Rc1-fZ-d6W"/>
+                    <navigationItem key="navigationItem" title="List" id="Rc1-fZ-d6W">
+                        <barButtonItem key="leftBarButtonItem" systemItem="reply" id="zNP-73-3HC">
+                            <connections>
+                                <action selector="returnHome" destination="UWE-g3-zJo" id="4lU-By-gSO"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N5T-zg-b5r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

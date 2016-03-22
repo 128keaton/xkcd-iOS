@@ -12,6 +12,7 @@ import ImageScrollView
 class IndividualComicViewer: UIViewController {
     
     var comic: UIImage?
+    var comicTitle: NSString?
     @IBOutlet var comicView: ImageScrollView?
     
     override func viewDidLoad() {
@@ -21,5 +22,11 @@ class IndividualComicViewer: UIViewController {
     }
     func setComicViewImage(comic: UIImage){
         self.comicView?.displayImage(comic)
+        self.navigationController?.navigationController?.navigationItem.title = comicTitle as? String
+        
+    }
+    @IBAction func saveShareComic(){
+        let activityViewController = UIActivityViewController(activityItems: [comic! as UIImage], applicationActivities: nil)
+        presentViewController(activityViewController, animated: true, completion: {})
     }
 }
