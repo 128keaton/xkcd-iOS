@@ -32,7 +32,7 @@ class ComicListView: UITableViewController {
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = UITableViewCell.init(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
 		let textDictionary = comicDictionary.objectAtIndex(indexPath.row)
-		cell.textLabel?.text = textDictionary["name"] as? String
+		cell.textLabel?.text = "\(textDictionary["number"] as! NSNumber). \(textDictionary["name"] as! String)"
 
 		return cell
 	}

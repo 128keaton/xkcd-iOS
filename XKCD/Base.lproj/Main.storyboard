@@ -40,15 +40,13 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ObQ-Ys-ta4">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
-                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="7VI-UA-fFv"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="DwU-Vm-Ulb"/>
                                     <barButtonItem title="Next" id="GqF-S1-AbW">
                                         <connections>
                                             <action selector="swipeUp" destination="BYZ-38-t0r" id="E3c-gg-oPR"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="qN1-Pj-cR3"/>
-                                    <barButtonItem title="Back" id="i28-rP-mRV">
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="DwU-Vm-Ulb"/>
+                                    <barButtonItem title="Previous" id="i28-rP-mRV">
                                         <connections>
                                             <action selector="swipeDown" destination="BYZ-38-t0r" id="icj-bd-5A5"/>
                                         </connections>
