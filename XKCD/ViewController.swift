@@ -13,6 +13,7 @@ class ViewController: UIViewController {
 	var currentComic: UIImage?
 	var currentComicNumber: Int?
 	let comicalClass = Comical()
+    @IBOutlet var navigationBar: UINavigationBar?
 	@IBOutlet var nextButton: UIBarButtonItem?
 
 	override func viewDidLoad() {
@@ -30,7 +31,10 @@ class ViewController: UIViewController {
 		let saveComic = UITapGestureRecognizer.init(target: self, action: "twoFingerTap")
 		saveComic.numberOfTapsRequired = 2
 		imageView?.addGestureRecognizer(saveComic)
-
+        
+        let jumpToLatest = UITapGestureRecognizer.init(target: self, action: "setupComicView")
+        
+        self.navigationBar?.addGestureRecognizer(jumpToLatest)
 
 		self.setupComicView()
 		// Do any additional setup after loading the view, typically from a nib.

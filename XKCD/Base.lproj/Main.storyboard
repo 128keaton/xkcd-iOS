@@ -72,6 +72,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="imageView" destination="x5G-gp-5Db" id="NRF-XE-V2X"/>
+                        <outlet property="navigationBar" destination="URm-A0-naC" id="mrr-tA-rci"/>
                         <outlet property="nextButton" destination="GqF-S1-AbW" id="XZQ-lD-B7A"/>
                     </connections>
                 </viewController>
@@ -108,13 +109,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="RGc-VK-Vhd" firstAttribute="top" secondItem="wPj-iL-CXe" secondAttribute="bottom" id="2gy-Cb-OmR"/>
-                            <constraint firstItem="wPj-iL-CXe" firstAttribute="top" secondItem="39l-8n-gLe" secondAttribute="top" id="8wl-x0-ZI3"/>
-                            <constraint firstItem="wPj-iL-CXe" firstAttribute="leading" secondItem="39l-8n-gLe" secondAttribute="leading" id="BRL-7Z-c1n"/>
+                            <constraint firstItem="wPj-iL-CXe" firstAttribute="leading" secondItem="RGc-VK-Vhd" secondAttribute="leading" id="5Jk-gx-xUg"/>
+                            <constraint firstItem="wPj-iL-CXe" firstAttribute="top" secondItem="39l-8n-gLe" secondAttribute="top" id="7GJ-JJ-vls"/>
                             <constraint firstItem="RGc-VK-Vhd" firstAttribute="centerX" secondItem="39l-8n-gLe" secondAttribute="centerX" id="Hmp-Sr-9sJ"/>
-                            <constraint firstItem="wPj-iL-CXe" firstAttribute="bottom" secondItem="liL-fg-UAn" secondAttribute="top" constant="-44" id="bud-s3-0MO"/>
-                            <constraint firstAttribute="trailing" secondItem="wPj-iL-CXe" secondAttribute="trailing" id="cTD-I9-Oox"/>
-                            <constraint firstItem="RGc-VK-Vhd" firstAttribute="leading" secondItem="wPj-iL-CXe" secondAttribute="leading" id="tud-um-TWH"/>
+                            <constraint firstItem="wPj-iL-CXe" firstAttribute="trailing" secondItem="RGc-VK-Vhd" secondAttribute="trailing" id="LNi-t6-LuS"/>
+                            <constraint firstItem="wPj-iL-CXe" firstAttribute="leading" secondItem="39l-8n-gLe" secondAttribute="leading" id="P53-2U-cj0"/>
+                            <constraint firstItem="wPj-iL-CXe" firstAttribute="bottom" secondItem="RGc-VK-Vhd" secondAttribute="top" id="d95-lW-p9v"/>
+                            <constraint firstAttribute="bottom" secondItem="wPj-iL-CXe" secondAttribute="bottom" constant="44" id="jRH-nd-crc"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Comic" id="fGO-WQ-oLY"/>
