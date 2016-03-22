@@ -25,11 +25,32 @@ class Comical: NSObject {
         comicDictionary =  NSMutableArray(array: comicDictionary.reverseObjectEnumerator().allObjects).mutableCopy() as! NSMutableArray //hahaha cause screw the actual order that im fetching
 		return comicDictionary
 	}
-
+    
+    //Fetch the number of the latest comic, easier than fetching the whole comic for just the number
 	func getLatestComicNumber() -> Int {
 		let endpoint = NSURL(string: "http://xkcd.com/info.0.json")
 		let data = NSData(contentsOfURL: endpoint!)
 		let jsonDict = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? [String: AnyObject]
 		return jsonDict!!["num"] as! Int
 	}
+    //Fetch latest comic, returns the URL of the image, name, and the number
+    func getLatestComic() -> NSMutableDictionary {
+        let endpoint = NSURL(string: "http://xkcd.com/info.0.json")
+        let data = NSData(contentsOfURL: endpoint!)
+        let jsonDict = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? [String: AnyObject]
+        let whomboCombo: NSMutableDictionary = ["url": jsonDict!!["img"]!, "name": jsonDict!!["title"]!, "number": jsonDict!!["num"]!]
+        
+
+        return whomboCombo;
+    }
+    
+    func getComicByNumber(number: Int) -> NSMutableDictionary{
+        let endpoint = NSURL(string: "http://xkcd.com/\(number)/info.0.json")
+        let data = NSData(contentsOfURL: endpoint!)
+        let jsonDict = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? [String: AnyObject]
+        let whomboCombo: NSMutableDictionary = ["url": jsonDict!!["img"]!, "name": jsonDict!!["title"]!, "number": jsonDict!!["num"]!]
+        return whomboCombo;
+
+    }
+    
 }

@@ -74,6 +74,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="imageView" destination="x5G-gp-5Db" id="NRF-XE-V2X"/>
+                        <outlet property="nextButton" destination="GqF-S1-AbW" id="XZQ-lD-B7A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
