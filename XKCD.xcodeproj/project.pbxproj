@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		014389AC37E623BA0D766725 /* Pods_XKCD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B63B6E4B9CD9E7EECA4032 /* Pods_XKCD.framework */; };
+		8A6CB5191CA1E85D0097EA42 /* IndividualComicViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6CB5181CA1E85D0097EA42 /* IndividualComicViewer.swift */; };
 		8AAB32661CA0A35300642CF1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB32651CA0A35300642CF1 /* AppDelegate.swift */; };
 		8AAB32681CA0A35300642CF1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB32671CA0A35300642CF1 /* ViewController.swift */; };
 		8AAB326B1CA0A35300642CF1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AAB32691CA0A35300642CF1 /* Main.storyboard */; };
@@ -17,6 +18,7 @@
 		8AAB327E1CA0A35300642CF1 /* XKCDTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB327D1CA0A35300642CF1 /* XKCDTests.swift */; };
 		8AAB32891CA0A35300642CF1 /* XKCDUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB32881CA0A35300642CF1 /* XKCDUITests.swift */; };
 		8AAB32991CA0B47500642CF1 /* ComicListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB32981CA0B47500642CF1 /* ComicListView.swift */; };
+		8AAB329B1CA0DFDA00642CF1 /* Comical.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB329A1CA0DFDA00642CF1 /* Comical.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +41,7 @@
 /* Begin PBXFileReference section */
 		18B63B6E4B9CD9E7EECA4032 /* Pods_XKCD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XKCD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A2739799FFEF50C0D28DB9D /* Pods-XKCD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XKCD.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XKCD/Pods-XKCD.debug.xcconfig"; sourceTree = "<group>"; };
+		8A6CB5181CA1E85D0097EA42 /* IndividualComicViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndividualComicViewer.swift; sourceTree = "<group>"; };
 		8AAB32621CA0A35300642CF1 /* XKCD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XKCD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AAB32651CA0A35300642CF1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AAB32671CA0A35300642CF1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -54,6 +57,7 @@
 		8AAB32881CA0A35300642CF1 /* XKCDUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XKCDUITests.swift; sourceTree = "<group>"; };
 		8AAB328A1CA0A35300642CF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8AAB32981CA0B47500642CF1 /* ComicListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListView.swift; sourceTree = "<group>"; };
+		8AAB329A1CA0DFDA00642CF1 /* Comical.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comical.swift; sourceTree = "<group>"; };
 		D1E4DD8A160A5D299CB2F503 /* Pods-XKCD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XKCD.release.xcconfig"; path = "Pods/Target Support Files/Pods-XKCD/Pods-XKCD.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -112,6 +116,8 @@
 				8AAB32671CA0A35300642CF1 /* ViewController.swift */,
 				8AAB32691CA0A35300642CF1 /* Main.storyboard */,
 				8AAB32981CA0B47500642CF1 /* ComicListView.swift */,
+				8A6CB5181CA1E85D0097EA42 /* IndividualComicViewer.swift */,
+				8AAB329A1CA0DFDA00642CF1 /* Comical.swift */,
 				8AAB326F1CA0A35300642CF1 /* Assets.xcassets */,
 				8AAB32711CA0A35300642CF1 /* LaunchScreen.storyboard */,
 				8AAB32741CA0A35300642CF1 /* Info.plist */,
@@ -340,6 +346,8 @@
 				8AAB32991CA0B47500642CF1 /* ComicListView.swift in Sources */,
 				8AAB32681CA0A35300642CF1 /* ViewController.swift in Sources */,
 				8AAB32661CA0A35300642CF1 /* AppDelegate.swift in Sources */,
+				8AAB329B1CA0DFDA00642CF1 /* Comical.swift in Sources */,
+				8A6CB5191CA1E85D0097EA42 /* IndividualComicViewer.swift in Sources */,
 				8AAB326E1CA0A35300642CF1 /* XKCD.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,7 +10,9 @@ import UIKit
 import ImageScrollView
 class ViewController: UIViewController {
     @IBOutlet var imageView: ImageScrollView?
-   
+    
+    let comicalClass = Comical()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let backOneComic = UITapGestureRecognizer.init(target: self, action: "swipeDown")
@@ -28,6 +30,9 @@ class ViewController: UIViewController {
         saveComic.numberOfTapsRequired = 2
         imageView?.addGestureRecognizer(saveComic)
   
+
+       // NSUserDefaults.standardUserDefaults().setObject(banana, forKey: "comicDatabate")
+        NSUserDefaults.standardUserDefaults().synchronize()
         
         
         self.setupComicView()
@@ -106,7 +111,7 @@ class ViewController: UIViewController {
 
         
     }
-     func twoFingerTap(){
+     @IBAction func twoFingerTap(){
         let defaults = NSUserDefaults.standardUserDefaults();
         let comicCount = defaults.integerForKey("currentNumber")
         let endpoint = NSURL(string: "http://xkcd.com/\(comicCount)/info.0.json")
