@@ -55,4 +55,12 @@ class Comical: NSObject {
 		let whomboCombo: NSMutableDictionary = ["url": jsonDict!!["img"]!, "name": jsonDict!!["title"]!, "number": jsonDict!!["num"]!]
 		return whomboCombo;
 	}
+    func getComicTitle(number: Int) -> String{
+        let endpoint = NSURL(string: "http://xkcd.com/\(number)/info.0.json")
+        let data = NSData(contentsOfURL: endpoint!)
+        let jsonDict = try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? [String: AnyObject]
+
+        return jsonDict?!["title"] as! String
+        
+    }
 }

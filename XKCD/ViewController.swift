@@ -74,6 +74,8 @@ class ViewController: UIViewController {
 		} else {
 			nextButton?.enabled = true
 		}
+   
+        navigationBar?.items![0].title = comicalClass.getComicTitle(currentComicNumber!)
 	}
 	@IBAction func twoFingerTap() {
 
