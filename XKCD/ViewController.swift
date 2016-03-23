@@ -8,11 +8,13 @@
 
 import UIKit
 import ImageScrollView
+import FetchKCD
 class ViewController: UIViewController {
 	@IBOutlet var imageView: ImageScrollView?
 	var currentComic: UIImage?
 	var currentComicNumber: Int?
-	let comicalClass = Comical()
+	let comicalClass = FetchKCD()
+    
     @IBOutlet var navigationBar: UINavigationBar?
 	@IBOutlet var nextButton: UIBarButtonItem?
 

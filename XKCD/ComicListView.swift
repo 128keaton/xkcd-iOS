@@ -10,14 +10,18 @@ import Foundation
 import UIKit
 import ImageScrollView
 import MBProgressHUD
+import FetchKCD
 
 class ComicListView: UITableViewController {
 	var comicDictionary = NSMutableArray()
-	var comical = Comical()
+	var favoritesArray = NSMutableArray()
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.setupArray()
 		self.tableView.delegate = self
+		if ((NSUserDefaults.standardUserDefaults().objectForKey("favorites")) != nil) {
+			favoritesArray = NSUserDefaults.standardUserDefaults().objectForKey("favorites") as! NSMutableArray
+		}
 
 		// Do any additional setup after loading the view, typically from a nib.
 	}
@@ -33,6 +37,12 @@ class ComicListView: UITableViewController {
 		let cell = UITableViewCell.init(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
 		let textDictionary = comicDictionary.objectAtIndex(indexPath.row)
 		cell.textLabel?.text = "\(textDictionary["number"] as! NSNumber). \(textDictionary["name"] as! String)"
+		let addFavorites = UILongPressGestureRecognizer.init(target: self, action: "addToFavorites:")
+		cell.addGestureRecognizer(addFavorites)
+		let temporaryDictionary = ["title": self.comicDictionary.objectAtIndex((indexPath.row))["name"]!!]
+		if (favoritesArray.containsObject(temporaryDictionary)) {
+			cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+		}
 
 		return cell
 	}
@@ -40,7 +50,8 @@ class ComicListView: UITableViewController {
 		MBProgressHUD.showHUDAddedTo(self.navigationController?.view, animated: true)
 		let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
 		dispatch_async(dispatch_get_global_queue(priority, 0)) {
-			let temporaryArray = Comical().fetchList(Comical().getLatestComicNumber(), end: Comical().getLatestComicNumber() - 15)
+
+			let temporaryArray = FetchKCD().fetchList(FetchKCD().getLatestComicNumber(), end: FetchKCD().getLatestComicNumber() - 15)
 			for apple in temporaryArray {
 				self.comicDictionary.addObject(apple)
 			}
@@ -51,10 +62,27 @@ class ComicListView: UITableViewController {
 			}
 		}
 	}
+	func addToFavorites(sender: UIGestureRecognizer) {
+		var temporaryDictionary = NSMutableDictionary()
+		let pressPoint = sender.locationInView(self.tableView)
+		let indexPath = self.tableView.indexPathForRowAtPoint(pressPoint)
+      
+        let individualComicDictionary = self.comicDictionary.objectAtIndex((indexPath?.row)!) as! NSMutableDictionary
+        let title = individualComicDictionary["name"] as! String
+		temporaryDictionary = ["title": title] as NSMutableDictionary
+		favoritesArray.addObject(temporaryDictionary.mutableCopy())
+		self.tableView.beginUpdates()
+		let cell = self.tableView.cellForRowAtIndexPath(indexPath!)
+		cell?.accessoryType = UITableViewCellAccessoryType.Checkmark
+		self.tableView.endUpdates()
+		print("Added \(indexPath?.row)")
+		NSUserDefaults.standardUserDefaults().setObject(favoritesArray, forKey: "favorites")
+		NSUserDefaults.standardUserDefaults().synchronize()
+	}
 
-    @IBAction func returnHome(){
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
+	@IBAction func returnHome() {
+		self.dismissViewControllerAnimated(true, completion: nil)
+	}
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		let comicViewer = segue.destinationViewController as! IndividualComicViewer
 		let row = sender as! Int
@@ -66,7 +94,7 @@ class ComicListView: UITableViewController {
 			let comic = UIImage.init(data: imageData!)
 			comicViewer.comic = comic
 			comicViewer.setComicViewImage(comic!)
-            comicViewer.title = temporaryDictionary["name"] as? String
+			comicViewer.title = temporaryDictionary["name"] as? String
 		}
 	}
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -80,7 +108,7 @@ class ComicListView: UITableViewController {
 			MBProgressHUD.showHUDAddedTo(self.navigationController?.view, animated: true)
 			let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
 			dispatch_async(dispatch_get_global_queue(priority, 0)) {
-				let temporaryArray = Comical().fetchList(Comical().getLatestComicNumber() - self.comicDictionary.count, end: Comical().getLatestComicNumber() - self.comicDictionary.count - 10)
+				let temporaryArray = FetchKCD().fetchList(FetchKCD().getLatestComicNumber() - self.comicDictionary.count, end: FetchKCD().getLatestComicNumber() - self.comicDictionary.count - 10)
 				for apple in temporaryArray {
 					self.comicDictionary.addObject(apple)
 				}
