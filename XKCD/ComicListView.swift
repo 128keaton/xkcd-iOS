@@ -12,11 +12,15 @@ import ImageScrollView
 import MBProgressHUD
 import FetchKCD
 import ReachabilitySwift
-class ComicListView: UITableViewController {
+class ComicListView: UITableViewController, UISearchResultsUpdating, UISearchControllerDelegate {
 	var comicDictionary = NSMutableArray()
 	var favoritesArray = NSMutableArray()
 	var isJacksonGrounded = false
-
+    var nameArray = [String]()
+    var filteredNames = [String]()
+    var shouldShowSearchResults = false
+    var searchController: UISearchController!
+    
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
@@ -24,21 +28,48 @@ class ComicListView: UITableViewController {
 		if ((NSUserDefaults.standardUserDefaults().objectForKey("favorites")) != nil) {
 			favoritesArray = NSUserDefaults.standardUserDefaults().objectForKey("favorites")?.mutableCopy() as! NSMutableArray
 		}
+        configureSearchController()
 
+        var reachability: Reachability?
+        
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+        } catch {
+            print("Unable to create Reachability")
+            return
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged:", name: ReachabilityChangedNotification, object: reachability)
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            print("could not start reachability notifier")
+        }
 		// Do any additional setup after loading the view, typically from a nib.
 	}
+
 
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
 	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return comicDictionary.count
+        if(shouldShowSearchResults == false){
+            return comicDictionary.count
+        }else{
+                return self.nameArray.count
+            }
+        
 	}
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = UITableViewCell.init(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
 		let textDictionary = comicDictionary.objectAtIndex(indexPath.row)
+        if(shouldShowSearchResults == false){
 		cell.textLabel?.text = "\(textDictionary["number"] as! NSNumber). \(textDictionary["name"] as! String)"
+        }else{
+            
+            cell.textLabel?.text = self.nameArray[indexPath.row]
+        }
 		let addFavorites = UILongPressGestureRecognizer.init(target: self, action: "addToFavorites:")
 
 		cell.addGestureRecognizer(addFavorites)
@@ -49,6 +80,17 @@ class ComicListView: UITableViewController {
 
 		return cell
 	}
+    
+    func configureSearchController() {
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.delegate = self
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = true
+        searchController.searchBar.placeholder = "Search here..."
+        searchController.searchBar.sizeToFit()
+   
+    }
+    
 	func setupArray() {
         dispatch_async(dispatch_get_main_queue()) {
             MBProgressHUD.showHUDAddedTo(self.navigationController?.view, animated: true)
@@ -61,7 +103,14 @@ class ComicListView: UITableViewController {
 			let temporaryArray = FetchKCD().fetchList(FetchKCD().getLatestComicNumber() + 1, end: FetchKCD().getLatestComicNumber() - 15)
 			for apple in temporaryArray {
 				self.comicDictionary.addObject(apple)
+                let dictionaryOfComic = apple as! NSMutableDictionary
+                
+                self.nameArray.append(("\(dictionaryOfComic["number"] as! NSNumber). \(dictionaryOfComic["name"] as! String)") as String)
+                self.nameArray.append(dictionaryOfComic["name"] as! String)
+
+                //im smert
 			}
+           
 
 			dispatch_async(dispatch_get_main_queue()) {
 				self.tableView.reloadData()
@@ -79,23 +128,31 @@ class ComicListView: UITableViewController {
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(true)
        
-		var reachability: Reachability?
-
-		do {
-			reachability = try Reachability.reachabilityForInternetConnection()
-		} catch {
-			print("Unable to create Reachability")
-			return
-		}
-
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged:", name: ReachabilityChangedNotification, object: reachability)
-		do {
-			try reachability?.startNotifier()
-		} catch {
-			print("could not start reachability notifier")
-		}
+		
 	}
 
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        shouldShowSearchResults = true
+       self.tableView.reloadData()
+    }
+    
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        shouldShowSearchResults = false
+        self.tableView.reloadData()
+    }
+    
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        if !shouldShowSearchResults {
+            shouldShowSearchResults = true
+            self.tableView.reloadData()
+        }
+        
+        searchController.searchBar.resignFirstResponder()
+    }
+    
+    
 	func reachabilityChanged(note: NSNotification) {
 
 		let reachability = note.object as! Reachability
@@ -212,6 +269,20 @@ class ComicListView: UITableViewController {
 			}
 		}
 	}
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        let searchString = searchController.searchBar.text
+        
+        // Filter the data array and get only those countries that match the search text.
+        filteredNames = nameArray.filter({ (name) -> Bool in
+            let titleText: NSString = name
+            
+            return (titleText.rangeOfString(searchString!, options: NSStringCompareOptions.CaseInsensitiveSearch).location) != NSNotFound
+        })
+        
+        // Reload the tableview.
+        self.tableView.reloadData()
+    }
+    
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
 		self.performSegueWithIdentifier("toComic", sender: indexPath.row)
