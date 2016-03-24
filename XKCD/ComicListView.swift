@@ -50,12 +50,14 @@ class ComicListView: UITableViewController {
 		return cell
 	}
 	func setupArray() {
+        dispatch_async(dispatch_get_main_queue()) {
+            MBProgressHUD.showHUDAddedTo(self.navigationController?.view, animated: true)
+        }
         
-		
 		let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
 		dispatch_async(dispatch_get_global_queue(priority, 0)) {
 			print("Latest comic: \(FetchKCD().getLatestComicNumber())")
-            MBProgressHUD.showHUDAddedTo(self.navigationController?.view, animated: true)
+            
 			let temporaryArray = FetchKCD().fetchList(FetchKCD().getLatestComicNumber() + 1, end: FetchKCD().getLatestComicNumber() - 15)
 			for apple in temporaryArray {
 				self.comicDictionary.addObject(apple)

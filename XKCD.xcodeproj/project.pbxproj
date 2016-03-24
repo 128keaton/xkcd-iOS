@@ -20,6 +20,11 @@
 		8A6CB5511CA35E8A0097EA42 /* Back-20.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A6CB5501CA35E8A0097EA42 /* Back-20.png */; };
 		8A6CB5531CA362A60097EA42 /* Notifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6CB5521CA362A60097EA42 /* Notifier.swift */; };
 		8A6CB5551CA365220097EA42 /* Static.gif in Resources */ = {isa = PBXBuildFile; fileRef = 8A6CB5541CA365220097EA42 /* Static.gif */; };
+		8A6CB5571CA42FD60097EA42 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A6CB5561CA42FD60097EA42 /* iAd.framework */; };
+		8A6CB5591CA437490097EA42 /* Info-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A6CB5581CA437490097EA42 /* Info-50.png */; };
+		8A6CB55B1CA437600097EA42 /* Info-20.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A6CB55A1CA437600097EA42 /* Info-20.png */; };
+		8A6CB55D1CA43A060097EA42 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6CB55C1CA43A060097EA42 /* AboutView.swift */; };
+		8A6CB55F1CA43AD40097EA42 /* emL4LvN0.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A6CB55E1CA43AD40097EA42 /* emL4LvN0.png */; };
 		8AAB32661CA0A35300642CF1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB32651CA0A35300642CF1 /* AppDelegate.swift */; };
 		8AAB32681CA0A35300642CF1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB32671CA0A35300642CF1 /* ViewController.swift */; };
 		8AAB326B1CA0A35300642CF1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AAB32691CA0A35300642CF1 /* Main.storyboard */; };
@@ -63,6 +68,11 @@
 		8A6CB5501CA35E8A0097EA42 /* Back-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-20.png"; sourceTree = "<group>"; };
 		8A6CB5521CA362A60097EA42 /* Notifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notifier.swift; sourceTree = "<group>"; };
 		8A6CB5541CA365220097EA42 /* Static.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Static.gif; sourceTree = "<group>"; };
+		8A6CB5561CA42FD60097EA42 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		8A6CB5581CA437490097EA42 /* Info-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Info-50.png"; path = "../../../../Downloads/Info-50.png"; sourceTree = "<group>"; };
+		8A6CB55A1CA437600097EA42 /* Info-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Info-20.png"; path = "../../../../Downloads/Info-20.png"; sourceTree = "<group>"; };
+		8A6CB55C1CA43A060097EA42 /* AboutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		8A6CB55E1CA43AD40097EA42 /* emL4LvN0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = emL4LvN0.png; path = ../../../../Downloads/emL4LvN0.png; sourceTree = "<group>"; };
 		8AAB32621CA0A35300642CF1 /* XKCD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XKCD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AAB32651CA0A35300642CF1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AAB32671CA0A35300642CF1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A6CB5571CA42FD60097EA42 /* iAd.framework in Frameworks */,
 				014389AC37E623BA0D766725 /* Pods_XKCD.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -133,8 +144,11 @@
 			isa = PBXGroup;
 			children = (
 				8A6CB54C1CA35CEB0097EA42 /* Menu Filled-20.png */,
+				8A6CB5581CA437490097EA42 /* Info-50.png */,
+				8A6CB55E1CA43AD40097EA42 /* emL4LvN0.png */,
 				8A6CB54A1CA35CE70097EA42 /* Upload-20.png */,
 				8A6CB54E1CA35E860097EA42 /* Forward-20.png */,
+				8A6CB55A1CA437600097EA42 /* Info-20.png */,
 				8A6CB5501CA35E8A0097EA42 /* Back-20.png */,
 				8A6CB5461CA358170097EA42 /* Star-50.png */,
 				8A6CB5481CA358550097EA42 /* Star-20.png */,
@@ -144,6 +158,7 @@
 				8AAB32671CA0A35300642CF1 /* ViewController.swift */,
 				8A6CB5521CA362A60097EA42 /* Notifier.swift */,
 				8AAB32691CA0A35300642CF1 /* Main.storyboard */,
+				8A6CB55C1CA43A060097EA42 /* AboutView.swift */,
 				8A6CB5421CA3211F0097EA42 /* FavoritesList.swift */,
 				8A6CB5541CA365220097EA42 /* Static.gif */,
 				8AAB32981CA0B47500642CF1 /* ComicListView.swift */,
@@ -177,6 +192,7 @@
 		9EF39BDAAFF7C98EEB043B3E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8A6CB5561CA42FD60097EA42 /* iAd.framework */,
 				18B63B6E4B9CD9E7EECA4032 /* Pods_XKCD.framework */,
 			);
 			name = Frameworks;
@@ -301,9 +317,11 @@
 			files = (
 				8A6CB51B1CA1FDE70097EA42 /* AppIcon.appiconset in Resources */,
 				8A6CB5451CA347A20097EA42 /* Star Filled-50.png in Resources */,
+				8A6CB55F1CA43AD40097EA42 /* emL4LvN0.png in Resources */,
 				8AAB32731CA0A35300642CF1 /* LaunchScreen.storyboard in Resources */,
 				8AAB32701CA0A35300642CF1 /* Assets.xcassets in Resources */,
 				8A6CB5511CA35E8A0097EA42 /* Back-20.png in Resources */,
+				8A6CB5591CA437490097EA42 /* Info-50.png in Resources */,
 				8A6CB54B1CA35CE70097EA42 /* Upload-20.png in Resources */,
 				8A6CB5551CA365220097EA42 /* Static.gif in Resources */,
 				8A6CB5471CA358170097EA42 /* Star-50.png in Resources */,
@@ -311,6 +329,7 @@
 				8AAB326B1CA0A35300642CF1 /* Main.storyboard in Resources */,
 				8A6CB54D1CA35CEB0097EA42 /* Menu Filled-20.png in Resources */,
 				8A6CB54F1CA35E860097EA42 /* Forward-20.png in Resources */,
+				8A6CB55B1CA437600097EA42 /* Info-20.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,6 +402,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A6CB55D1CA43A060097EA42 /* AboutView.swift in Sources */,
 				8AAB32991CA0B47500642CF1 /* ComicListView.swift in Sources */,
 				8AAB32681CA0A35300642CF1 /* ViewController.swift in Sources */,
 				8AAB32661CA0A35300642CF1 /* AppDelegate.swift in Sources */,

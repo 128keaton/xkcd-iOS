@@ -8,12 +8,17 @@
 
 import Foundation
 import UIKit
-class FavoritesList: UITableViewController {
+import iAd
+class FavoritesList: UITableViewController, ADBannerViewDelegate{
 
+    @IBOutlet var iADContainer: ADBannerView?
+    
+    
 	var favorites: NSMutableArray = NSUserDefaults.standardUserDefaults().objectForKey("favorites")?.mutableCopy() as! NSMutableArray
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.setupArray()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "rotated", name: UIDeviceOrientationDidChangeNotification, object: nil)
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -40,8 +45,55 @@ class FavoritesList: UITableViewController {
 		label.text = "long hold to add to favorites"
 		label.textAlignment = NSTextAlignment.Center
 		label.textColor = UIColor.grayColor()
-		return label
+        let screenBounds: CGRect = UIScreen.mainScreen().bounds
+        label.center = self.view.center
+        //iADContainer?.frame = CGRectMake(0, 0, 50, screenBounds.width)
+         iADContainer?.center = CGPoint(x: screenBounds.width/2, y: screenBounds.height-40-(iADContainer?.frame.height)!)
+         iADContainer?.delegate = self
+         iADContainer?.hidden = false
+       // iADContainer?.alpha = 0.0
+        let view = UIView.init(frame: CGRectMake(self.view.frame.origin.x, 0, self.view.frame.width, 166))
+       
+        view.addSubview(label)
+
+		return view
 	}
+    func rotated()
+    {
+        let screenBounds: CGRect = UIScreen.mainScreen().bounds
+        if(UIDeviceOrientationIsLandscape(UIDevice.currentDevice().orientation))
+        {
+            iADContainer?.center = CGPoint(x: screenBounds.width/2, y: screenBounds.height+20-(iADContainer?.frame.height)!)
+        }
+        
+        if(UIDeviceOrientationIsPortrait(UIDevice.currentDevice().orientation))
+        {
+            iADContainer?.center = CGPoint(x: screenBounds.width/2, y: screenBounds.height-40-(iADContainer?.frame.height)!)
+        }
+        
+    }
+    
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+            favorites.removeObjectAtIndex(indexPath.row)
+            tableView.beginUpdates()
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Middle)
+
+            
+            tableView.endUpdates()
+            NSUserDefaults.standardUserDefaults().setObject(favorites, forKey: "favorites")
+            NSUserDefaults.standardUserDefaults().synchronize()
+           // iADContainer?.alpha = 1.0
+            //if you are hacky and you know it, reset the center.
+            let screenBounds: CGRect = UIScreen.mainScreen().bounds
+            iADContainer?.center = CGPoint(x: screenBounds.width/2, y: screenBounds.height-40-(iADContainer?.frame.height)!)
+        }
+    }
+    
+    
 
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		if (segue.identifier == "toComic") {

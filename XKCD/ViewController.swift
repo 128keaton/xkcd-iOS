@@ -17,7 +17,8 @@ class ViewController: UIViewController {
 	var currentComic: UIImage?
 	var currentComicNumber: Int?
 	let comicalClass = FetchKCD()
-
+    
+    
 	@IBOutlet var nextButton: UIBarButtonItem?
 	@IBOutlet var previousButton: UIBarButtonItem?
 	@IBOutlet var shareButton: UIBarButtonItem?
@@ -58,9 +59,11 @@ class ViewController: UIViewController {
 		let reachability = note.object as! Reachability
 
 		if reachability.isReachable() {
-			self.setupComicView()
-			shareButton?.enabled = true
-			previousButton?.enabled = true
+            	dispatch_async(dispatch_get_main_queue(), {
+            self.setupComicView()
+			self.shareButton?.enabled = true
+			self.previousButton?.enabled = true
+            })
 		} else {
 			Notifier().createNotificationWithName("Error", view: self, message: "Could not connect to the internet")
 			let staticView = AnimatableImageView(frame: self.imageView!.frame)
@@ -110,9 +113,19 @@ class ViewController: UIViewController {
 	}
 	@IBAction func twoFingerTap() {
 
-		let comic = currentComic
-		let activityViewController = UIActivityViewController(activityItems: [comic! as UIImage], applicationActivities: nil)
-		presentViewController(activityViewController, animated: true, completion: { })
+		let alertController = UIAlertController.init(title: "What do you want to do", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let shareButton = UIAlertAction.init(title: "Share", style: UIAlertActionStyle.Default, handler: { (action) in
+            let comic = self.currentComic
+            let activityViewController = UIActivityViewController(activityItems: [comic! as UIImage], applicationActivities: nil)
+            self.presentViewController(activityViewController, animated: true, completion: { })
+        })
+        alertController.addAction(shareButton)
+        
+        let aboutButton = UIAlertAction.init(title: "About", style: UIAlertActionStyle.Default, handler: { (action) in
+            self.performSegueWithIdentifier("about", sender: nil)
+        })
+        alertController.addAction(aboutButton)
+        self.presentViewController(alertController, animated: true, completion: nil)
 	}
 	func setupComicView() {
 		let comicDictionary = comicalClass.getLatestComic()
