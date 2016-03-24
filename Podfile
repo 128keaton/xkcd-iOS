@@ -3,8 +3,6 @@ platform :ios, '8.0'
 # Uncomment this line if you're using Swift
 use_frameworks!
 
-
-
 source 'https://github.com/CocoaPods/Specs.git'
 def shared_pods
 pod 'ImageScrollView'
@@ -20,9 +18,5 @@ end
 
 target 'Today\'s Comic' do
 shared_pods
-end
-
-target 'XKCDUITests' do
-
 end
 
