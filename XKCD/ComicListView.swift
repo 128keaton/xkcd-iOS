@@ -259,7 +259,7 @@ class ComicListView: UITableViewController, UISearchControllerDelegate {
                 let comicViewer = segue.destinationViewController as! IndividualComicViewer
                 let row = sender as! Int
                 let finder = filteredNames[row] 
-                
+                var temporaryDictionary = NSMutableDictionary()
                 let finalCount = finder as String
                 print("Screw you: \(finalCount)")
                 
@@ -269,6 +269,7 @@ class ComicListView: UITableViewController, UISearchControllerDelegate {
                 print("Screw you: \(newString)")
                 
                 let count = newString.characters.count as Int
+                if(count > 4){
                 var screwYou = newString as NSString
                 screwYou = screwYou.substringWithRange(NSRange(location: 0, length: count - 4))
                 print("Screw you: \(screwYou)")
@@ -277,8 +278,10 @@ class ComicListView: UITableViewController, UISearchControllerDelegate {
        
                 
                 let stringToInt = Int(screwYou as String)
-                let temporaryDictionary = FetchKCD().getComicByNumber(stringToInt!)
-                
+                temporaryDictionary = FetchKCD().getComicByNumber(stringToInt!)
+                }else{
+                  temporaryDictionary = FetchKCD().getComicByNumber(Int(newString)!)
+                }
                 
                 let url = NSURL.init(string: temporaryDictionary["url"] as! String)
                 
