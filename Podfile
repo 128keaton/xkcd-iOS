@@ -2,6 +2,7 @@
 platform :ios, '8.0'
 # Uncomment this line if you're using Swift
 use_frameworks!
+<<<<<<< HEAD
 
 target 'XKCD' do
 pod 'Gifu'
@@ -13,6 +14,23 @@ end
 
 target 'XKCDTests' do
 
+=======
+source 'https://github.com/CocoaPods/Specs.git'
+def shared_pods
+pod 'ImageScrollView'
+pod 'FetchKCD'
+end
+
+target 'XKCD' do
+shared_pods
+pod 'MBProgressHUD'
+pod 'Gifu'
+pod 'ReachabilitySwift'
+end
+
+target 'Today\'s Comic' do
+shared_pods
+>>>>>>> origin/master
 end
 
 target 'XKCDUITests' do

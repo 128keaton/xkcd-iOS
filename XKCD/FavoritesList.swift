@@ -14,24 +14,31 @@ class FavoritesList: UITableViewController, ADBannerViewDelegate{
     @IBOutlet var iADContainer: ADBannerView?
     
     
-	var favorites: NSMutableArray = NSUserDefaults.standardUserDefaults().objectForKey("favorites")?.mutableCopy() as! NSMutableArray
-	override func viewDidLoad() {
+	var favorites: NSMutableArray?
+    
+    override func viewDidLoad() {
 		super.viewDidLoad()
-		self.setupArray()
+		
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "rotated", name: UIDeviceOrientationDidChangeNotification, object: nil)
+        favorites = []
+        if((NSUserDefaults.standardUserDefaults().objectForKey("favorites")) != nil){
+            self.setupArray()
+        }
+
 	}
+    
 
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
 	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return favorites.count
+		return favorites!.count
 	}
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = UITableViewCell.init(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
 
-		cell.textLabel?.text = "\(favorites.objectAtIndex(indexPath.row)["number"] as! NSNumber). \(favorites.objectAtIndex(indexPath.row)["name"] as! String)"
+		cell.textLabel?.text = "\(favorites!.objectAtIndex(indexPath.row)["number"] as! NSNumber). \(favorites!.objectAtIndex(indexPath.row)["name"] as! String)"
 
 		return cell
 	}
@@ -78,7 +85,7 @@ class FavoritesList: UITableViewController, ADBannerViewDelegate{
     }
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.Delete) {
-            favorites.removeObjectAtIndex(indexPath.row)
+            favorites!.removeObjectAtIndex(indexPath.row)
             tableView.beginUpdates()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Middle)
 
@@ -99,7 +106,7 @@ class FavoritesList: UITableViewController, ADBannerViewDelegate{
 		if (segue.identifier == "toComic") {
 			let comicViewer = segue.destinationViewController as! IndividualComicViewer
 			let row = sender as! Int
-			let temporaryDictionary = self.favorites.objectAtIndex(row)
+			let temporaryDictionary = self.favorites!.objectAtIndex(row)
 
 			let comic = UIImage.init(contentsOfFile: fileInDocumentsDirectory("\(temporaryDictionary["name"] as! String).png"))
 			comicViewer.comic = comic
@@ -120,10 +127,12 @@ class FavoritesList: UITableViewController, ADBannerViewDelegate{
 	}
 
 	func setupArray() {
-		favorites = NSUserDefaults.standardUserDefaults().objectForKey("favorites")?.mutableCopy() as! NSMutableArray
-		for apple in favorites {
+		favorites = NSUserDefaults.standardUserDefaults().objectForKey("favorites")?.mutableCopy() as? NSMutableArray
+        if(favorites?.count != 0){
+		for apple in favorites! {
 			print(apple)
 		}
+        }
 		self.tableView.reloadData()
 	}
 }

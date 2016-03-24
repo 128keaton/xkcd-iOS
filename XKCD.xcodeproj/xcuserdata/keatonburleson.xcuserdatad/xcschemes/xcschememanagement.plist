@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Today's Comic.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
+		</dict>
 		<key>XKCD.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +17,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>8A0C302D1CA473B3007FB782</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>8AAB32611CA0A35300642CF1</key>
 		<dict>
 			<key>primary</key>

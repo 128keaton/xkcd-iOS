@@ -12,11 +12,23 @@ import ImageScrollView
 import MBProgressHUD
 import FetchKCD
 import ReachabilitySwift
-class ComicListView: UITableViewController {
+
+
+extension ComicListView: UISearchResultsUpdating {
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+}
+
+class ComicListView: UITableViewController, UISearchControllerDelegate {
 	var comicDictionary = NSMutableArray()
 	var favoritesArray = NSMutableArray()
 	var isJacksonGrounded = false
-
+    var nameArray = [String]()
+    var filteredNames = [String]()
+    var referenceArray = NSMutableArray()
+    let searchController = UISearchController(searchResultsController: nil)
+    
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
@@ -24,21 +36,54 @@ class ComicListView: UITableViewController {
 		if ((NSUserDefaults.standardUserDefaults().objectForKey("favorites")) != nil) {
 			favoritesArray = NSUserDefaults.standardUserDefaults().objectForKey("favorites")?.mutableCopy() as! NSMutableArray
 		}
+        self.setupSearch()
 
+        var reachability: Reachability?
+        
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+        } catch {
+            print("Unable to create Reachability")
+            return
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged:", name: ReachabilityChangedNotification, object: reachability)
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            print("could not start reachability notifier")
+        }
 		// Do any additional setup after loading the view, typically from a nib.
 	}
 
+
+    func setupSearch(){
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchController.searchBar
+    }
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 		// Dispose of any resources that can be recreated.
 	}
 	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return comicDictionary.count
+        if(!searchController.active && searchController.searchBar.text == ""){
+            return comicDictionary.count
+        }else{
+                return self.filteredNames.count
+            }
+        
 	}
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 		let cell = UITableViewCell.init(style: UITableViewCellStyle.Default, reuseIdentifier: "cell")
 		let textDictionary = comicDictionary.objectAtIndex(indexPath.row)
+        if(!searchController.active && searchController.searchBar.text == ""){
 		cell.textLabel?.text = "\(textDictionary["number"] as! NSNumber). \(textDictionary["name"] as! String)"
+        }else{
+            
+            cell.textLabel?.text = self.filteredNames[indexPath.row]
+        }
 		let addFavorites = UILongPressGestureRecognizer.init(target: self, action: "addToFavorites:")
 
 		cell.addGestureRecognizer(addFavorites)
@@ -49,6 +94,9 @@ class ComicListView: UITableViewController {
 
 		return cell
 	}
+    
+    
+    
 	func setupArray() {
         dispatch_async(dispatch_get_main_queue()) {
             MBProgressHUD.showHUDAddedTo(self.navigationController?.view, animated: true)
@@ -61,7 +109,14 @@ class ComicListView: UITableViewController {
 			let temporaryArray = FetchKCD().fetchList(FetchKCD().getLatestComicNumber() + 1, end: FetchKCD().getLatestComicNumber() - 15)
 			for apple in temporaryArray {
 				self.comicDictionary.addObject(apple)
+                let dictionaryOfComic = apple as! NSMutableDictionary
+                
+                self.nameArray.append(("\(dictionaryOfComic["number"] as! NSNumber). \(dictionaryOfComic["name"] as! String)") as String)
+                
+
+                //im smert
 			}
+           
 
 			dispatch_async(dispatch_get_main_queue()) {
 				self.tableView.reloadData()
@@ -79,23 +134,11 @@ class ComicListView: UITableViewController {
 	override func viewDidAppear(animated: Bool) {
 		super.viewDidAppear(true)
        
-		var reachability: Reachability?
-
-		do {
-			reachability = try Reachability.reachabilityForInternetConnection()
-		} catch {
-			print("Unable to create Reachability")
-			return
-		}
-
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged:", name: ReachabilityChangedNotification, object: reachability)
-		do {
-			try reachability?.startNotifier()
-		} catch {
-			print("could not start reachability notifier")
-		}
+		
 	}
 
+    
+    
 	func reachabilityChanged(note: NSNotification) {
 
 		let reachability = note.object as! Reachability
@@ -198,6 +241,7 @@ class ComicListView: UITableViewController {
 
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		if (segue.identifier == "toComic") {
+            if(searchController.active == false){
 			let comicViewer = segue.destinationViewController as! IndividualComicViewer
 			let row = sender as! Int
 			let temporaryDictionary = self.comicDictionary.objectAtIndex(row)
@@ -209,23 +253,74 @@ class ComicListView: UITableViewController {
 				comicViewer.comic = comic
 				comicViewer.setComicViewImage(comic!)
 				comicViewer.title = temporaryDictionary["name"] as? String
+                
 			}
+            }else{
+                let comicViewer = segue.destinationViewController as! IndividualComicViewer
+                let row = sender as! Int
+                let finder = filteredNames[row] 
+                var temporaryDictionary = NSMutableDictionary()
+                let finalCount = finder as String
+                print("Screw you: \(finalCount)")
+                
+                let stringArray = finalCount.componentsSeparatedByCharactersInSet(
+                    NSCharacterSet.decimalDigitCharacterSet().invertedSet)
+                let newString = stringArray.joinWithSeparator("")
+                print("Screw you: \(newString)")
+                
+                let count = newString.characters.count as Int
+                if(count > 4){
+                var screwYou = newString as NSString
+                screwYou = screwYou.substringWithRange(NSRange(location: 0, length: count - 4))
+                print("Screw you: \(screwYou)")
+                
+                screwYou = screwYou as String
+       
+                
+                let stringToInt = Int(screwYou as String)
+                temporaryDictionary = FetchKCD().getComicByNumber(stringToInt!)
+                }else{
+                  temporaryDictionary = FetchKCD().getComicByNumber(Int(newString)!)
+                }
+                
+                let url = NSURL.init(string: temporaryDictionary["url"] as! String)
+                
+                let imageData = NSData(contentsOfURL: url!)
+                if imageData != nil {
+                    let comic = UIImage.init(data: imageData!)
+                    comicViewer.comic = comic
+                    comicViewer.setComicViewImage(comic!)
+                    comicViewer.title = temporaryDictionary["name"] as? String
+            }
+            }
 		}
 	}
+    
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        filteredNames = nameArray.filter { name in
+            return name.lowercaseString.containsString(searchText.lowercaseString)
+            
+        }
+        
+        tableView.reloadData()
+    }
+    
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
 		self.performSegueWithIdentifier("toComic", sender: indexPath.row)
 	}
 	override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 		let lastRow = comicDictionary.count - 1
-		if (indexPath.row == lastRow) {
+		if (indexPath.row == lastRow && searchController.searchBar.text == "" && searchController.active == false) {
 
 			MBProgressHUD.showHUDAddedTo(self.navigationController?.view, animated: true)
 			let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
 			dispatch_async(dispatch_get_global_queue(priority, 0)) {
 				let temporaryArray = FetchKCD().fetchList(FetchKCD().getLatestComicNumber() - self.comicDictionary.count, end: FetchKCD().getLatestComicNumber() - self.comicDictionary.count - 10)
 				for apple in temporaryArray {
+                    let dictionaryOfComic = apple as! NSMutableDictionary
 					self.comicDictionary.addObject(apple)
+                    self.nameArray.append(("\(dictionaryOfComic["number"] as! NSNumber). \(dictionaryOfComic["name"] as! String)") as String)
 				}
 
 				dispatch_async(dispatch_get_main_queue()) {
@@ -236,3 +331,5 @@ class ComicListView: UITableViewController {
 		}
 	}
 }
+
+
