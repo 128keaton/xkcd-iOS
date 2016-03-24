@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '4E543D7AE1FABADB110CC1D1'
-               BlueprintName = 'MBProgressHUD'
+               BlueprintIdentifier = '9200D3356A47BF7089B0A264'
+               BlueprintName = 'Pods-Today&apos;s Comic'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'MBProgressHUD.framework'>
+               BuildableName = 'Pods_Today_s_Comic.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

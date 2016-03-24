@@ -8,23 +8,9 @@ PODS:
 DEPENDENCIES:
   - FetchKCD
   - Gifu
-  - ImageScrollView (from `https://github.com/huynguyencong/ImageScrollView.git`)
-  - MBProgressHUD (~> 0.9.2)
-  - ReachabilitySwift (from `https://github.com/ashleymills/Reachability.swift`)
-
-EXTERNAL SOURCES:
-  ImageScrollView:
-    :git: https://github.com/huynguyencong/ImageScrollView.git
-  ReachabilitySwift:
-    :git: https://github.com/ashleymills/Reachability.swift
-
-CHECKOUT OPTIONS:
-  ImageScrollView:
-    :commit: 718a2ba2a6fd0bcfdfa3a269a10be4ad46a17eca
-    :git: https://github.com/huynguyencong/ImageScrollView.git
-  ReachabilitySwift:
-    :commit: fa90df50c04f5743fbdf643cbe8d10562d75673d
-    :git: https://github.com/ashleymills/Reachability.swift
+  - ImageScrollView
+  - MBProgressHUD
+  - ReachabilitySwift
 
 SPEC CHECKSUMS:
   FetchKCD: f5536df8dd06d9b5dd5c1cc7ebce0d4b8e30a3a2

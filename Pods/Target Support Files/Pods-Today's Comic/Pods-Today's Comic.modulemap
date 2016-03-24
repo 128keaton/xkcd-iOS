@@ -1,0 +1,6 @@
+framework module Pods_Today_s_Comic {
+  umbrella header "Pods-Today's Comic-umbrella.h"
+
+  export *
+  module * { export * }
+}

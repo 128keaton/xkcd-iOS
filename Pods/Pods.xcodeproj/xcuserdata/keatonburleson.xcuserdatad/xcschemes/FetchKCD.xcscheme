@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '7C59C0C399C9A287A413FF43'
+               BlueprintIdentifier = '5565F91EF503AD2056B311D8'
                BlueprintName = 'FetchKCD'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'FetchKCD.framework'>

@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-Today's Comic.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-XKCD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,6 +42,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>872E6F47686DDCA7AE723A566B6BD380</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>A26D46C7E833715851C88085917AF2BD</key>
 		<dict>
 			<key>primary</key>
