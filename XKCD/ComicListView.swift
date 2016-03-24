@@ -11,16 +11,18 @@ import UIKit
 import ImageScrollView
 import MBProgressHUD
 import FetchKCD
-
+import ReachabilitySwift
 class ComicListView: UITableViewController {
 	var comicDictionary = NSMutableArray()
 	var favoritesArray = NSMutableArray()
+	var isJacksonGrounded = false
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		self.setupArray()
+
 		self.tableView.delegate = self
 		if ((NSUserDefaults.standardUserDefaults().objectForKey("favorites")) != nil) {
-			favoritesArray = NSUserDefaults.standardUserDefaults().objectForKey("favorites") as! NSMutableArray
+			favoritesArray = NSUserDefaults.standardUserDefaults().objectForKey("favorites")?.mutableCopy() as! NSMutableArray
 		}
 
 		// Do any additional setup after loading the view, typically from a nib.
@@ -38,20 +40,23 @@ class ComicListView: UITableViewController {
 		let textDictionary = comicDictionary.objectAtIndex(indexPath.row)
 		cell.textLabel?.text = "\(textDictionary["number"] as! NSNumber). \(textDictionary["name"] as! String)"
 		let addFavorites = UILongPressGestureRecognizer.init(target: self, action: "addToFavorites:")
+
 		cell.addGestureRecognizer(addFavorites)
-		let temporaryDictionary = ["title": self.comicDictionary.objectAtIndex((indexPath.row))["name"]!!]
-		if (favoritesArray.containsObject(temporaryDictionary)) {
-			cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+
+		if (favoritesArray.containsObject(self.comicDictionary.objectAtIndex(indexPath.row))) {
+			cell.accessoryView = self.createAccessoryView()
 		}
 
 		return cell
 	}
 	func setupArray() {
-		MBProgressHUD.showHUDAddedTo(self.navigationController?.view, animated: true)
+        
+		
 		let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
 		dispatch_async(dispatch_get_global_queue(priority, 0)) {
-
-			let temporaryArray = FetchKCD().fetchList(FetchKCD().getLatestComicNumber(), end: FetchKCD().getLatestComicNumber() - 15)
+			print("Latest comic: \(FetchKCD().getLatestComicNumber())")
+            MBProgressHUD.showHUDAddedTo(self.navigationController?.view, animated: true)
+			let temporaryArray = FetchKCD().fetchList(FetchKCD().getLatestComicNumber() + 1, end: FetchKCD().getLatestComicNumber() - 15)
 			for apple in temporaryArray {
 				self.comicDictionary.addObject(apple)
 			}
@@ -62,20 +67,109 @@ class ComicListView: UITableViewController {
 			}
 		}
 	}
-	func addToFavorites(sender: UIGestureRecognizer) {
-		var temporaryDictionary = NSMutableDictionary()
+	func createAccessoryView() -> UIImageView {
+
+		let accessoryView = UIImageView.init(image: UIImage(named: "Star Filled-50.png", inBundle: NSBundle.mainBundle(), compatibleWithTraitCollection: nil))
+		accessoryView.frame = CGRectMake(0, 0, 20, 20)
+		return accessoryView
+	}
+
+	override func viewDidAppear(animated: Bool) {
+		super.viewDidAppear(true)
+       
+		var reachability: Reachability?
+
+		do {
+			reachability = try Reachability.reachabilityForInternetConnection()
+		} catch {
+			print("Unable to create Reachability")
+			return
+		}
+
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged:", name: ReachabilityChangedNotification, object: reachability)
+		do {
+			try reachability?.startNotifier()
+		} catch {
+			print("could not start reachability notifier")
+		}
+	}
+
+	func reachabilityChanged(note: NSNotification) {
+
+		let reachability = note.object as! Reachability
+        self.tableView.beginUpdates()
+		if reachability.isReachable() {
+			isJacksonGrounded = false
+			MBProgressHUD.hideHUDForView(self.view, animated: true)
+            self.setupArray()
+		} else {
+			isJacksonGrounded = true
+			
+		}
+        self.tableView.endUpdates()
+	}
+	override func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+		if (isJacksonGrounded == true) {
+			let label = UILabel.init(frame: CGRectMake(self.view.frame.origin.x, 200, self.view.frame.width, 100))
+			label.text = "no internet :("
+			label.textAlignment = NSTextAlignment.Center
+			label.textColor = UIColor.grayColor()
+			return label
+		}
+        return UIView.init()
+	}
+
+	func addToFavorites(sender: UILongPressGestureRecognizer) {
 		let pressPoint = sender.locationInView(self.tableView)
 		let indexPath = self.tableView.indexPathForRowAtPoint(pressPoint)
-      
-        let individualComicDictionary = self.comicDictionary.objectAtIndex((indexPath?.row)!) as! NSMutableDictionary
-        let title = individualComicDictionary["name"] as! String
-		temporaryDictionary = ["title": title] as NSMutableDictionary
-		favoritesArray.addObject(temporaryDictionary.mutableCopy())
-		self.tableView.beginUpdates()
-		let cell = self.tableView.cellForRowAtIndexPath(indexPath!)
-		cell?.accessoryType = UITableViewCellAccessoryType.Checkmark
-		self.tableView.endUpdates()
-		print("Added \(indexPath?.row)")
+
+		let individualComicDictionary = self.comicDictionary.objectAtIndex((indexPath?.row)!) as! NSMutableDictionary
+		if (sender.state == UIGestureRecognizerState.Ended) {
+			if (!favoritesArray.containsObject(individualComicDictionary)) {
+				favoritesArray.addObject(individualComicDictionary.mutableCopy())
+				self.tableView.beginUpdates()
+				let cell = self.tableView.cellForRowAtIndexPath(indexPath!)
+				cell?.accessoryView = self.createAccessoryView()
+				cell?.accessoryView?.frame = CGRectMake(0, 0, 0, 0)
+				UIView.animateWithDuration(0.2, delay: 0.0,
+					options: [], animations: {
+						cell?.accessoryView?.frame = CGRectMake(0, 0, 20, 20)
+					}, completion: nil)
+				let temporaryDictionary = self.comicDictionary.objectAtIndex((indexPath?.row)!)
+				let url = NSURL.init(string: temporaryDictionary["url"] as! String)
+
+				let imageData = NSData(contentsOfURL: url!)
+				if imageData != nil {
+					let documentsURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+					if let image = UIImage(data: imageData!) {
+						let fileURL = documentsURL.URLByAppendingPathComponent(temporaryDictionary["name"] as! String)
+						if let pngImageData = UIImagePNGRepresentation(image) {
+							pngImageData.writeToURL(fileURL, atomically: false)
+						}
+					}
+				}
+
+				self.tableView.endUpdates()
+			} else {
+				print("Removing favorite")
+				favoritesArray.removeObject(individualComicDictionary.mutableCopy())
+				self.tableView.beginUpdates()
+				let cell = self.tableView.cellForRowAtIndexPath(indexPath!)
+				UIView.animateWithDuration(1, animations: { () -> Void in
+					let animation = CABasicAnimation(keyPath: "transform")
+					var tr = CATransform3DIdentity
+					tr = CATransform3DScale(tr, 0.01, 0.01, 1);
+					animation.toValue = NSValue(CATransform3D: tr)
+					cell?.accessoryView?.layer.addAnimation(animation, forKey: "transform")
+				}) { (finished: Bool) -> Void in
+					cell?.accessoryView = nil
+				}
+
+				removeOldFileIfExist(individualComicDictionary["name"] as! String)
+				self.tableView.endUpdates()
+			}
+		}
+
 		NSUserDefaults.standardUserDefaults().setObject(favoritesArray, forKey: "favorites")
 		NSUserDefaults.standardUserDefaults().synchronize()
 	}
@@ -83,23 +177,42 @@ class ComicListView: UITableViewController {
 	@IBAction func returnHome() {
 		self.dismissViewControllerAnimated(true, completion: nil)
 	}
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-		let comicViewer = segue.destinationViewController as! IndividualComicViewer
-		let row = sender as! Int
-		let temporaryDictionary = self.comicDictionary.objectAtIndex(row)
-		let url = NSURL.init(string: temporaryDictionary["url"] as! String)
+	func removeOldFileIfExist(name: String) {
+		let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+		if paths.count > 0 {
+			let dirPath = paths[0]
+			let fileName = name
+			let filePath = NSString(format: "%@/%@", dirPath, fileName) as String
+			if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
+				do {
+					try NSFileManager.defaultManager().removeItemAtPath(filePath)
+					print("old image has been removed")
+				} catch {
+					print("an error during a removing")
+				}
+			}
+		}
+	}
 
-		let imageData = NSData(contentsOfURL: url!)
-		if imageData != nil {
-			let comic = UIImage.init(data: imageData!)
-			comicViewer.comic = comic
-			comicViewer.setComicViewImage(comic!)
-			comicViewer.title = temporaryDictionary["name"] as? String
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		if (segue.identifier == "toComic") {
+			let comicViewer = segue.destinationViewController as! IndividualComicViewer
+			let row = sender as! Int
+			let temporaryDictionary = self.comicDictionary.objectAtIndex(row)
+			let url = NSURL.init(string: temporaryDictionary["url"] as! String)
+
+			let imageData = NSData(contentsOfURL: url!)
+			if imageData != nil {
+				let comic = UIImage.init(data: imageData!)
+				comicViewer.comic = comic
+				comicViewer.setComicViewImage(comic!)
+				comicViewer.title = temporaryDictionary["name"] as? String
+			}
 		}
 	}
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 		self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
-		self.performSegueWithIdentifier("showComic", sender: indexPath.row)
+		self.performSegueWithIdentifier("toComic", sender: indexPath.row)
 	}
 	override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 		let lastRow = comicDictionary.count - 1
