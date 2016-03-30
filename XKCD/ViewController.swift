@@ -57,7 +57,7 @@ class ViewController: UIViewController {
 	func reachabilityChanged(note: NSNotification) {
 
 		let reachability = note.object as! Reachability
-        reachabilityGlobal = note.object as! Reachability
+        reachabilityGlobal = note.object as? Reachability
 		if reachability.isReachable() {
             	dispatch_async(dispatch_get_main_queue(), {
             self.setupComicView()
@@ -111,6 +111,7 @@ class ViewController: UIViewController {
 			nextButton?.enabled = true
 		}
 	}
+    
 	@IBAction func twoFingerTap() {
 
 		let alertController = UIAlertController.init(title: "What do you want to do", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
@@ -135,6 +136,10 @@ class ViewController: UIViewController {
         let aboutButton = UIAlertAction.init(title: "About", style: UIAlertActionStyle.Default, handler: { (action) in
             self.performSegueWithIdentifier("about", sender: nil)
         })
+        let cancelButton = UIAlertAction.init(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: { (action) in
+            self.dismissViewControllerAnimated(true, completion: nil)
+            })
+        alertController.addAction(cancelButton)
         alertController.addAction(aboutButton)
         self.presentViewController(alertController, animated: true, completion: nil)
 	}
