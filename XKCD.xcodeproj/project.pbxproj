@@ -38,6 +38,7 @@
 		8AAB327E1CA0A35300642CF1 /* XKCDTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB327D1CA0A35300642CF1 /* XKCDTests.swift */; };
 		8AAB32891CA0A35300642CF1 /* XKCDUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB32881CA0A35300642CF1 /* XKCDUITests.swift */; };
 		8AAB32991CA0B47500642CF1 /* ComicListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB32981CA0B47500642CF1 /* ComicListView.swift */; };
+		8AE98E881CA4AD2800F9D677 /* Christmas Star-22.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AE98E871CA4AD2800F9D677 /* Christmas Star-22.png */; };
 		971CA7282597BBA9B3BCA20E /* Pods_XKCD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B63B6E4B9CD9E7EECA4032 /* Pods_XKCD.framework */; };
 		9FBB69446C3FFE67B0952C5D /* Pods_Today_s_Comic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25521D912E9FBCCE24A8B109 /* Pods_Today_s_Comic.framework */; };
 /* End PBXBuildFile section */
@@ -130,6 +131,7 @@
 		8AAB32881CA0A35300642CF1 /* XKCDUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XKCDUITests.swift; sourceTree = "<group>"; };
 		8AAB328A1CA0A35300642CF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8AAB32981CA0B47500642CF1 /* ComicListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListView.swift; sourceTree = "<group>"; };
+		8AE98E871CA4AD2800F9D677 /* Christmas Star-22.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Christmas Star-22.png"; sourceTree = "<group>"; };
 		9EEF808941475E7169513A1B /* Pods-Today's Comic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Today's Comic.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Today's Comic/Pods-Today's Comic.debug.xcconfig"; sourceTree = "<group>"; };
 		B0C1063BF40C26B3F2CEA54E /* Pods_extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1E4DD8A160A5D299CB2F503 /* Pods-XKCD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XKCD.release.xcconfig"; path = "Pods/Target Support Files/Pods-XKCD/Pods-XKCD.release.xcconfig"; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 		8A0C30201CA45535007FB782 /* UI Images */ = {
 			isa = PBXGroup;
 			children = (
+				8AE98E871CA4AD2800F9D677 /* Christmas Star-22.png */,
 				8A0C30241CA455A1007FB782 /* 64a488f6e8c689aa.jpg */,
 				8A6CB5541CA365220097EA42 /* Static.gif */,
 				8A6CB54C1CA35CEB0097EA42 /* Menu Filled-20.png */,
@@ -331,6 +334,7 @@
 				8A68FC2E1CA4A354003ADB98 /* Resources */,
 				D82D4A89695E574F62F29AAA /* Embed Pods Frameworks */,
 				3D9E3C6FE34F831D6D8E66EE /* Copy Pods Resources */,
+				8AE98E891CA4B52800F9D677 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -462,6 +466,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A0C301B1CA453FF007FB782 /* AppIcon.appiconset in Resources */,
+				8AE98E881CA4AD2800F9D677 /* Christmas Star-22.png in Resources */,
 				8A6CB5451CA347A20097EA42 /* Star Filled-50.png in Resources */,
 				8A0C301D1CA454CD007FB782 /* emL4LvN0.png in Resources */,
 				8AAB32731CA0A35300642CF1 /* LaunchScreen.storyboard in Resources */,
@@ -510,6 +515,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Today's Comic/Pods-Today's Comic-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		8AE98E891CA4B52800F9D677 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\nif [[ -d \"Frameworks\" ]]; then\n    rm -fr Frameworks\nfi";
 		};
 		925C201E0C550F83C10B0497 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -682,9 +700,10 @@
 			baseConfigurationReference = 9EEF808941475E7169513A1B /* Pods-Today's Comic.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				INFOPLIST_FILE = "Today's COmic/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bittank.XKCD.Today-s-COmic";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -696,9 +715,10 @@
 			baseConfigurationReference = 5B617A953782AB570CAAB558 /* Pods-Today's Comic.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				INFOPLIST_FILE = "Today's COmic/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bittank.XKCD.Today-s-COmic";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

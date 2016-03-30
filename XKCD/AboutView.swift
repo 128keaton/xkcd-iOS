@@ -12,7 +12,7 @@ class AboutView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let swipeToExit = UISwipeGestureRecognizer.init(target: self, action: "dismissYoSelf")
+        let swipeToExit = UISwipeGestureRecognizer.init(target: self, action: #selector(AboutView.dismissYoSelf))
         swipeToExit.direction = UISwipeGestureRecognizerDirection.Down
         swipeToExit.numberOfTouchesRequired = 1
         self.view.addGestureRecognizer(swipeToExit)

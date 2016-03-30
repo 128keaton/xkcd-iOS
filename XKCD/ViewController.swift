@@ -17,7 +17,7 @@ class ViewController: UIViewController {
 	var currentComic: UIImage?
 	var currentComicNumber: Int?
 	let comicalClass = FetchKCD()
-    
+    var reachabilityGlobal: Reachability?
     
 	@IBOutlet var nextButton: UIBarButtonItem?
 	@IBOutlet var previousButton: UIBarButtonItem?
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
 			return
 		}
 
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged:", name: ReachabilityChangedNotification, object: reachability)
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: reachability)
 		do {
 			try reachability?.startNotifier()
 		} catch {
@@ -57,7 +57,7 @@ class ViewController: UIViewController {
 	func reachabilityChanged(note: NSNotification) {
 
 		let reachability = note.object as! Reachability
-
+        reachabilityGlobal = note.object as! Reachability
 		if reachability.isReachable() {
             	dispatch_async(dispatch_get_main_queue(), {
             self.setupComicView()
@@ -116,10 +116,21 @@ class ViewController: UIViewController {
 		let alertController = UIAlertController.init(title: "What do you want to do", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
         let shareButton = UIAlertAction.init(title: "Share", style: UIAlertActionStyle.Default, handler: { (action) in
             let comic = self.currentComic
-            let activityViewController = UIActivityViewController(activityItems: [comic! as UIImage], applicationActivities: nil)
-            self.presentViewController(activityViewController, animated: true, completion: { })
+            let image: UIImage = comic! as UIImage
+            let str: String = "XKCD Comic"
+            let postItems: [AnyObject] = [str, image]
+        
+            let activityViewController = UIActivityViewController(activityItems: postItems, applicationActivities: [])
+            
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            activityViewController.popoverPresentationController?.sourceRect = self.view.bounds
+            
+            self.presentViewController(activityViewController, animated: true, completion: nil)
+
         })
-        alertController.addAction(shareButton)
+        if(reachabilityGlobal?.isReachable() == true){
+            alertController.addAction(shareButton)
+        }
         
         let aboutButton = UIAlertAction.init(title: "About", style: UIAlertActionStyle.Default, handler: { (action) in
             self.performSegueWithIdentifier("about", sender: nil)

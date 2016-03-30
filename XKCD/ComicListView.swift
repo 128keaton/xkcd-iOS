@@ -47,7 +47,7 @@ class ComicListView: UITableViewController, UISearchControllerDelegate {
             return
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChanged:", name: ReachabilityChangedNotification, object: reachability)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ComicListView.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: reachability)
         do {
             try reachability?.startNotifier()
         } catch {
@@ -84,7 +84,7 @@ class ComicListView: UITableViewController, UISearchControllerDelegate {
             
             cell.textLabel?.text = self.filteredNames[indexPath.row]
         }
-		let addFavorites = UILongPressGestureRecognizer.init(target: self, action: "addToFavorites:")
+		let addFavorites = UILongPressGestureRecognizer.init(target: self, action: #selector(ComicListView.addToFavorites(_:)))
 
 		cell.addGestureRecognizer(addFavorites)
 

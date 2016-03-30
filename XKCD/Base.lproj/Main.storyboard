@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
@@ -251,7 +251,7 @@
                                 <action selector="returnHome" destination="UWE-g3-zJo" id="4lU-By-gSO"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="Star-20.png" id="Rd1-JS-eLa">
+                        <barButtonItem key="rightBarButtonItem" image="Christmas Star-22.png" id="Rd1-JS-eLa">
                             <connections>
                                 <segue destination="ego-gh-USM" kind="show" id="N5v-h7-LSw"/>
                             </connections>
@@ -262,7 +262,7 @@
             </objects>
             <point key="canvasLocation" x="1117" y="1125"/>
         </scene>
-        <!--Favorites List-->
+        <!--Favorites-->
         <scene sceneID="MK0-yF-FV6">
             <objects>
                 <tableViewController id="ego-gh-USM" customClass="FavoritesList" customModule="XKCD" customModuleProvider="target" sceneMemberID="viewController">
@@ -302,6 +302,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Favorites" id="0j7-kA-ea2"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="iADContainer" destination="iAc-fv-9hd" id="q2O-mD-XD8"/>
@@ -332,9 +333,9 @@
     </scenes>
     <resources>
         <image name="Back-20.png" width="20" height="20"/>
+        <image name="Christmas Star-22.png" width="22" height="22"/>
         <image name="Forward-20.png" width="20" height="20"/>
         <image name="Menu Filled-20.png" width="20" height="20"/>
-        <image name="Star-20.png" width="20" height="20"/>
         <image name="Upload-20.png" width="20" height="20"/>
         <image name="emL4LvN0.png" width="400" height="400"/>
     </resources>

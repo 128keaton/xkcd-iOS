@@ -19,7 +19,7 @@ class FavoritesList: UITableViewController, ADBannerViewDelegate{
     override func viewDidLoad() {
 		super.viewDidLoad()
 		
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "rotated", name: UIDeviceOrientationDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FavoritesList.rotated), name: UIDeviceOrientationDidChangeNotification, object: nil)
         favorites = []
         if((NSUserDefaults.standardUserDefaults().objectForKey("favorites")) != nil){
             self.setupArray()
